@@ -25,7 +25,7 @@ In `main.cpp`, after receiving the current CTE, I simply pass it to the PID cont
 In order to visualize cte over time, I added all cte into a vector and dump them into a file at the end. Then I wrote a `visualize.py` to compare the performance of these controllers.
 
 ## Comparison of P, PD and PID controllers
-![1](pic/1.png )
+![1](pic/PID.png )
 
 As can be seen, P controller has big oscillation behavior. And this manifests as ego car waving inside the lane. On the contrary, PD controller quicly converges to CTE=0 and follows the reference path closely. The P controller oscilates significantly and eventually veered off track (t=420).
 
@@ -33,4 +33,4 @@ When a system bias is present (steering bias=0.5), PD controller cannot converge
 
 ## Video recording
 
-[![IMAGE ALT TEXT HERE]()](video/PID.mp4)
+[![video]()](video/PID.mp4)

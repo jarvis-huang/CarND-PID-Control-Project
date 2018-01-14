@@ -36,8 +36,9 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   double Kp = 0.35;
-  double Ki = 0; //0.003;
-  double Kd = 0.35;
+  double Ki = 0.003; // 0
+  double Kd = 0.35; // 0
+  const int N_STEPS = 10000;
   pid.Init(Kp, Ki, Kd);
 
 
@@ -68,13 +69,13 @@ int main()
           pid.UpdateError(cte);
           steer_value = -pid.TotalError();
           steer_value = std::atan(steer_value)/deg2rad(90); // normalize to [-1, 1]
-          double steer_bias = 0; //0.5;
+          double steer_bias = 0.1; //0.5;
           steer_value = std::min(1.0, steer_value + steer_bias);
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
           v_cte.push_back(cte);
-          if (v_cte.size()>=500)
+          if (v_cte.size()>=N_STEPS)
           {
             std::ofstream cte_file;
             cte_file.open ("cte.txt");

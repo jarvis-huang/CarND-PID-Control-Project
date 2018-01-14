@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <fstream>
 
 // for convenience
 using json = nlohmann::json;
@@ -35,14 +36,17 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
   double Kp = 0.35;
-  double Ki = 0;
+  double Ki = 0; //0.003;
   double Kd = 0.35;
   pid.Init(Kp, Ki, Kd);
+
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
+    static std::vector<double> v_cte;
+    
     if (length && length > 2 && data[0] == '4' && data[1] == '2')
     {
       auto s = hasData(std::string(data).substr(0, length));
@@ -64,9 +68,21 @@ int main()
           pid.UpdateError(cte);
           steer_value = -pid.TotalError();
           steer_value = std::atan(steer_value)/deg2rad(90); // normalize to [-1, 1]
+          double steer_bias = 0; //0.5;
+          steer_value = std::min(1.0, steer_value + steer_bias);
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          v_cte.push_back(cte);
+          if (v_cte.size()>=500)
+          {
+            std::ofstream cte_file;
+            cte_file.open ("cte.txt");
+            for (auto x: v_cte)
+                cte_file << x << std::endl;
+            cte_file.close();
+            exit(0);
+          }
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
@@ -82,7 +98,7 @@ int main()
       }
     }
   });
-
+  
   // We don't need this since we're not using HTTP but if it's removed the program
   // doesn't compile :-(
   h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data, size_t, size_t) {

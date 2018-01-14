@@ -24,6 +24,17 @@ In `main.cpp`, after receiving the current CTE, I simply pass it to the PID cont
 
 In order to visualize cte over time, I added all cte into a vector and dump them into a file at the end. Then I wrote a `visualize.py` to compare the performance of these controllers.
 
+## Parameters
+The final parameters I used are:
+```cpp
+  double Kp = 0.35;
+  double Ki = 0.003;
+  double Kd = 0.35;
+```
+They are meaningful. `Ki` should be small because its error term is accumulated cte is quite large. `Kd/dt` should be larger than `Kp` because `delta_cte` is usually smaller than `cte` and thus the gain must compensate for the smaller error.
+
+I arrived at these parameters by manual tuning. Initially having only `Kp` and then keep on adding `Kd` and finally `Ki`, while trying to maintain small cte over the entire course.
+
 ## Comparison of P, PD and PID controllers
 ![1](pic/PID.png )
 

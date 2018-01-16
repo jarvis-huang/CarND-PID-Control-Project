@@ -35,9 +35,9 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  double Kp = 0.35;
-  double Ki = 0.003; // 0
-  double Kd = 0.35; // 0
+  double Kp = 0.20;
+  double Ki = 0; //0.003; // 0
+  double Kd = 0.25; // 0
   const int N_STEPS = 10000;
   pid.Init(Kp, Ki, Kd);
 
@@ -68,8 +68,8 @@ int main()
           */
           pid.UpdateError(cte);
           steer_value = -pid.TotalError();
-          steer_value = std::atan(steer_value)/deg2rad(90); // normalize to [-1, 1]
-          double steer_bias = 0.1; //0.5;
+          steer_value = std::max(-1.0, std::min(1.0, steer_value)); // normalize to [-1, 1]
+          double steer_bias = 0; // 0.1; //0.5;
           steer_value = std::min(1.0, steer_value + steer_bias);
           
           // DEBUG

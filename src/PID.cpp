@@ -1,4 +1,5 @@
 #include "PID.h"
+#include <cmath>
 
 using namespace std;
 
@@ -6,7 +7,7 @@ using namespace std;
 * TODO: Complete the PID class.
 */
 
-PID::PID() : cte(-10000), cte_sum(0), dt(0.1) {}
+PID::PID() : cte(0), cte_sum(0), dt(0.1) {}
 
 PID::~PID() {}
 
@@ -19,7 +20,7 @@ void PID::Init(double _Kp, double _Ki, double _Kd) {
 void PID::UpdateError(double _cte) {
     
     p_error = Kp * cte;
-    if (cte<-5000) // first measurement, no derivative yet
+    if (std::fabs(cte)<0.001) // first measurement, no derivative yet
         d_error = 0;
     else {
         double delta_cte = _cte - cte;

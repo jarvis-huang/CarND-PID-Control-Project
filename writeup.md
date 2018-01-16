@@ -49,7 +49,11 @@ If we set the Kd too high (in overdamped.mp4), there is significantly understeer
 ## Video recording
 
 [![P_controller]()](video/P_controller.mp4)
+
 [![overdamped]()](video/overdamped.mp4)
+
 [![PD_with_steer_bias]()](video/PD_with_steer_bias.mp4)
+
 [![PID_with_steer_bias]()](video/PID_with_steer_bias.mp4)
+
 [![PID]()](video/PID.mp4)

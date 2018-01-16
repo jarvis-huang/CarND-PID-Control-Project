@@ -42,6 +42,14 @@ As can be seen, P controller has big oscillation behavior. And this manifests as
 
 When a system bias is present (steering bias=0.5), PD controller cannot converge CTE to zero. This causes the ego car to drive very close to the edge of the road. When it comes to a sharp turn, it sometime is not able to steer back in time and went off course. That is what happened at t=1200. PID controller, nevertheless, can correct the system bias and stay on track the whole time.
 
+With P_controller alone, there is significant waving.
+
+If we set the Kd too high (in overdamped.mp4), there is significantly understeering in curves and the vehicle is constantly trying to correct, but not enough.
+
 ## Video recording
 
-[![video]()](video/PID.mp4)
+[![P_controller]()](video/P_controller.mp4)
+[![overdamped]()](video/overdamped.mp4)
+[![PD_with_steer_bias]()](video/PD_with_steer_bias.mp4)
+[![PID_with_steer_bias]()](video/PID_with_steer_bias.mp4)
+[![PID]()](video/PID.mp4)

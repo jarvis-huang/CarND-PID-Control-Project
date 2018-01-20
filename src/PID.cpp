@@ -1,5 +1,6 @@
 #include "PID.h"
 #include <cmath>
+#include <limits>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ void PID::Init(double _Kp, double _Ki, double _Kd) {
 void PID::UpdateError(double _cte) {
     
     p_error = Kp * cte;
-    if (std::fabs(cte)<0.001) // first measurement, no derivative yet
+    if (std::fabs(cte)< std::numeric_limits<double>::min()) // first measurement, no derivative yet
         d_error = 0;
     else {
         double delta_cte = _cte - cte;

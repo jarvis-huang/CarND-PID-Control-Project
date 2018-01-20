@@ -75,6 +75,12 @@ With P_controller alone, there is significant waving.
 
 If we set the Kd too high (in overdamped.mp4), there is significantly understeering in curves and the vehicle is constantly trying to correct, but not enough.
 
+## Tricks
+
+As per reviewer's suggestion, I reduce throttle according to CTE value. This helped stablize the car during sharp turns because large CTE will slow down the vehicle so that steer control can more easily correct CTE.
+
+`double throttle = 0.3 - std::atan(std::fabs(cte))/M_PI/2;`
+
 ## Video recording
 
 [![P_controller]()](video/P_controller.mp4)

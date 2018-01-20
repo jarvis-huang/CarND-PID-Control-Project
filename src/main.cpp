@@ -69,8 +69,10 @@ int main()
           pid.UpdateError(cte);
           steer_value = -pid.TotalError();
           steer_value = std::max(-1.0, std::min(1.0, steer_value)); // normalize to [-1, 1]
-          double steer_bias = 0.2;
+          double steer_bias = 0; //0.2;
           steer_value = std::min(1.0, steer_value + steer_bias);
+          
+          double throttle = 0.3 - std::atan(std::fabs(cte))/M_PI/2;
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
@@ -87,7 +89,7 @@ int main()
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 0.3;
+          msgJson["throttle"] = throttle; //0.3;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
